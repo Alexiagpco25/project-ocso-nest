@@ -14,18 +14,18 @@ export class Location {
   @Column('text')
   locationAdress: string;
 
-  @Column('simple-array')  
+  @Column('simple-array')
   locationLating: number[];
 
-  @OneToOne(() =>Manager)
-  @JoinColumn({
-    name: "managerId"//nombran columnas en bd
-  })
+  @OneToOne(() => Manager)
+  @JoinColumn({ name: "managerId" })  // Nombra la columna del manager en la BD
   manager: Manager;
-  @ManyToOne(() => Region, (region)=> region.locations)
-  @JoinColumn({
-     name:"regionId"
-  })
+
+  @ManyToOne(() => Region, (region) => region.locations)
+  @JoinColumn({ name: "regionId" })  // Nombra la columna de la región en la BD
+  region: Region;
+
   @OneToMany(() => Employee, (employee) => employee.location)
   employees: Employee[];
 }
+
