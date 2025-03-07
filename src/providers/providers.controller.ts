@@ -5,7 +5,10 @@ import { UpdateProviderDto } from './dto/update-provider.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { User } from 'src/auth/entities/user.entity';
 import { UserData } from 'src/auth/decorators/user.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
+@UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -16,6 +19,8 @@ export class ProvidersController {
   }
 @UseGuards(AuthGuard)
 
+  @Roles(["Admin"])
+  @UseGuards(RolesGuard)
   @Get()
   findAll(@UserData() user: User) {
     if(user.userRoles.includes("Employee")) throw new UnauthorizedException("No estas autorizado,solo admins y managers")
