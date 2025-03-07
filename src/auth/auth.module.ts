@@ -11,14 +11,14 @@ import { EXPPIRES_IN, JWT_KEY } from './constants/jwt.constants';
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret:JWT_KEY,
+      secret: JWT_KEY,
       signOptions: {
         expiresIn: EXPPIRES_IN,
-      }
-    })
+      },
+    }),
   ],
-  
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [AuthService, JwtModule],  // Exporta JwtModule, no JwtService
 })
 export class AuthModule {}
