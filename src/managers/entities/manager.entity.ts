@@ -11,7 +11,9 @@ managerId: string;
 managerFullName: string;
 @Column('float')
 managerSalary: string;
-@Column('text')
+@Column('text', {
+    unique: true
+})
 managerEmail: string;
 @Column('text')
 managerPhoneNumber: string;
