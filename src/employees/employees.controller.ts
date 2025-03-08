@@ -6,12 +6,27 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import{ROLES} from 'src/auth/constants/roles.constants'
+import { ApiResponse } from '@nestjs/swagger';
+import { Employee } from './entities/employee.entity';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+
+@ApiAuth()
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Auth(ROLES.MANAGER)
+  @ApiResponse({
+    status: 201,
+    example: {
+      employeeId: "UUID",
+      employeeNanme: "Alexia",
+      employeeLastName: "Pacheco",
+      employeePhoneNumber: "442138841",
+    } 
+  })
+  
   @Post()
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
@@ -37,6 +52,12 @@ uploadPhoto(@UploadedFile()file: Express.Multer.File){
     id: string
   ) {
     return this.employeesService.findOne(id);
+  }
+
+  @Auth(ROLES.MANAGER)
+  @Get('/location/:id')
+  findAllLocation(@Param('id')id: string){
+    return this.employeesService.findByLocation(+id);
   }
 
   @Auth(ROLES.EMPLOYEE)

@@ -12,17 +12,19 @@ export class Location {
   locationName: string;
 
   @Column('text')
-  locationAdress: string;
+  locationAddress: string;
 
   @Column('simple-array')
-  locationLating: number[];
+  locationLatLng: number[];
 
-  @OneToOne(() => Manager)
-  @JoinColumn({ name: "managerId" })  // Nombra la columna del manager en la BD
+  @OneToOne(() => Manager,{
+    eager: true,
+  })
+  @JoinColumn({ name: "managerId" })  
   manager: Manager;
 
   @ManyToOne(() => Region, (region) => region.locations)
-  @JoinColumn({ name: "regionId" })  // Nombra la columna de la región en la BD
+  @JoinColumn({ name: "regionId" })  
   region: Region;
 
   @OneToMany(() => Employee, (employee) => employee.location)
