@@ -43,7 +43,7 @@ export class CreateEmployeeDto {
   @ApiPropertyOptional()
   @IsObject()
   @IsOptional()
-  location: LocationEmployeeDto
+  location: Location;
 }
 
 
