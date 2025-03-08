@@ -6,6 +6,8 @@ import { version } from 'os';
 import{ROLES} from 'src/auth/constants/roles.constants'
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ApiAuth } from 'src/auth/decorators/api.decorator';
+import { ApiResponse } from '@nestjs/swagger';
+import { Provider } from 'src/providers/entities/provider.entity';
 
 @ApiAuth()
 @Controller('products')
@@ -14,6 +16,20 @@ export class ProductsController {
 
   @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Post()
+  @ApiResponse({
+    status: 201,
+    example: {
+      productId: "UUID",
+      productName: "Coca cola",
+      price: "18.50",
+      countSeal: "100",
+      Provider:{
+        providerId:'bjkhfhdj',
+        providerName:'Ejemplo'
+      }
+    } 
+  })
+  
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }

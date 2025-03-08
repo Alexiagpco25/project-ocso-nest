@@ -1,20 +1,20 @@
-import { Provider } from "@nestjs/common";
-import { IsEmail, IsOptional, IsString, MaxLength,IsUUID} from "class-validator";
+import { IsEmail, IsOptional, IsString, MaxLength } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateProviderDto {
-    @IsString()
-    @MaxLength(100)
-    providerName: string;
+  
+  @ApiProperty()
+  @IsString()
+  @MaxLength(100)
+  providerName: string;
 
-    @IsEmail() 
-    providerEmail: string;
+  @ApiProperty()
+  @IsEmail()
+  providerEmail: string;
 
-    @IsString()
-    @MaxLength(15)
-    @IsOptional()
-    providerPhoneNumber?: string; 
-
-    @IsUUID()
-    provider: Provider; 
-
+  @ApiPropertyOptional()
+  @IsString()
+  @MaxLength(15)
+  @IsOptional()
+  providerPhoneNumber?: string;
 }
