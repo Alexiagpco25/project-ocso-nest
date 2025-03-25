@@ -21,14 +21,12 @@ private jwtService: JwtService) {}
 
   async loginUser(loginUserDto:LoginUserDto){
     const user = await this.userRepository.findOne({
-      where: { userEmail: loginUserDto.userEmail,
+      where: {
+        userEmail: loginUserDto.userEmail,
     },
   });
 
-    if (!user) {
-      throw new UnauthorizedException('Usuario no encontrado');
-    }
-
+    if (!user) throw new UnauthorizedException('No estas autorizado')
     const match = await bcrypt.compare(
       loginUserDto.userPassword,
       user.userPassword
