@@ -13,7 +13,7 @@ async function bootstrap() {
     }
   });
 
-  app.use(cookieParser);
+  app.use(cookieParser());
   const config = new DocumentBuilder()
     .setTitle('Ocso API')
     .setDescription('Api for ocso management')

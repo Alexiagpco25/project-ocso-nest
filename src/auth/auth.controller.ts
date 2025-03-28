@@ -23,13 +23,14 @@ export class AuthController {
     const token = await this.authService.loginUser(loginUserDto)
     let expireDate = new Date()
     expireDate.setDate(expireDate.getDay() + 7)
-    response.cookie(TOKEN_NAME, token,{
+    response.cookie(TOKEN_NAME, token, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
+      expires: expireDate,
       maxAge: 1000 * 60 * 60* 24 *7
     });
-    return;
+    return {token};
   }
 
   @Patch(':email')
