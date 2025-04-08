@@ -10,7 +10,7 @@ managerId: string;
 @Column('text')
 managerFullName: string;
 @Column('float')
-managerSalary: string;
+managerSalary: number;
 @Column('text', {
     unique: true
 })
@@ -19,11 +19,15 @@ managerEmail: string;
 managerPhoneNumber: string;
 
 @OneToOne(() => Location)
-location: Location;
-
-@OneToOne(() => User)
 @JoinColumn({
-    name: "userId"
+    name:"locationId"
 })
-user: User;
+location: Location | string;
+
+  @OneToOne(() => User)
+  @JoinColumn({
+    name: "userId"
+  })
+  user: User;
 }
+

@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +24,7 @@ export class ManagersService {
     managerId: id
    })
    if(!manager) throw new NotFoundException("No manager found")
+    return manager;
   }
 
   async update(id: string, updateManagerDto: UpdateManagerDto) {
