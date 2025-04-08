@@ -22,7 +22,7 @@ managerPhoneNumber: string;
 @JoinColumn({
     name:"locationId"
 })
-location: Location | string;
+location: Location | string ;
 
   @OneToOne(() => User)
   @JoinColumn({
