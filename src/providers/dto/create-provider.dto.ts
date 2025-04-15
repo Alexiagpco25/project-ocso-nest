@@ -7,6 +7,7 @@ export class CreateProviderDto extends Provider {
   declare providerName: string;
 
   @IsEmail()
+  @IsString()
   declare providerEmail: string;
 
   @IsString()
