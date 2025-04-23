@@ -4,18 +4,15 @@ import { CreateProviderDto } from "src/providers/dto/create-provider.dto";  // A
 
 export class CreateProductDto {
   
-  @ApiPropertyOptional()
   @IsString()
   @IsUUID("4")
   @IsOptional()
   productId: string;
 
-  @ApiProperty()
   @IsString()
   @MaxLength(40)
   productName: string;
 
-  @ApiProperty()
   @IsNumber()
   price: number;
 
@@ -23,7 +20,6 @@ export class CreateProductDto {
   @IsInt()
   countSeal: number;
 
-  @ApiProperty()
   @IsObject()
   provider: CreateProviderDto; 
 }
