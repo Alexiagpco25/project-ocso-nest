@@ -1,27 +1,23 @@
-import { IsString, IsUUID, MaxLength, IsNumber, IsInt, IsOptional, IsObject } from "class-validator";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"; 
-import { CreateProviderDto } from "src/providers/dto/create-provider.dto";  // Asegúrate de que el DTO del proveedor esté importado
+import { IsInt, IsNumber, IsOptional, IsString, IsUUID, MaxLength } from "class-validator";
+import { Product } from "../entities/product.entity";
+import { Provider } from "src/providers/entities/provider.entity";
 
-export class CreateProductDto {
-  
+export class CreateProductDto extends Product {
   @IsString()
   @IsUUID("4")
   @IsOptional()
-  productId: string;
+  declare productId: string;
 
   @IsString()
   @MaxLength(40)
-  productName: string;
+  declare productName: string;
 
   @IsNumber()
-  price: number;
+  declare price: number;
 
-  @ApiProperty()
   @IsInt()
-  countSeal: number;
+  declare countSeal: number;
 
-  @IsObject()
-  provider: CreateProviderDto; 
+  @IsString()
+  declare provider: Provider | string;
 }
-
-
