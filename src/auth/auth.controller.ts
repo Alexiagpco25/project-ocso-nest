@@ -1,4 +1,13 @@
-import { Controller, Post, Body, Param, Patch, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Res,
+  BadRequestException,
+  Query
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -13,29 +22,44 @@ import { Cookies } from './decorators/cookies.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signup')
-  signup(@Body() createUserDto: CreateUserDto) {
-    return this.authService.registerUser(createUserDto);
+  @Post("register/:id")
+  registerManager(
+    @Query("role") role: string,
+    @Body() createUserDto: CreateUserDto,
+    @Param("id") id: string,
+  ) {
+    if (role === "manager") {
+      return this.authService.registerManager(id, createUserDto)
+    } else if ( role === "employee" ) {
+      return this.authService.registerEmployee(id, createUserDto)
+    }
+    throw new BadRequestException("Rol inválido");
   }
 
+ 
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto, @Res({passthrough: true}) response: Response, @Cookies() cookies:any) {
-    const token = await this.authService.loginUser(loginUserDto)
-    let expireDate = new Date()
-    expireDate.setDate(expireDate.getDay() + 7)
+  async login(
+    @Body() loginUserDto: LoginUserDto,
+    @Res({ passthrough: true }) response: Response,
+    @Cookies() cookies: any,
+  ) {
+    const token = await this.authService.loginUser(loginUserDto);
+    let expireDate = new Date();
+    expireDate.setDate(expireDate.getDay() + 7);
     response.cookie(TOKEN_NAME, token, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
       expires: expireDate,
-      maxAge: 1000 * 60 * 60* 24 *7
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    return {token};
+    return { token };
   }
-
-  @Patch(':email')
-  updateUser(@Param('email') userEmail: string, @Body() updateUserDto: UpdateUserDto) {
+  @Patch("/:id")
+  updateUser(
+    @Param("id") userEmail: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.authService.updateUser(userEmail, updateUserDto);
   }
 }
-

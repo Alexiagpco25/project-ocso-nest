@@ -1,27 +1,25 @@
-import { Employee } from "src/employees/entities/employee.entity";
 import { Manager } from "src/managers/entities/manager.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Employee } from "src/employees/entities/employee.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm";
 
 @Entity()
 export class User{
-@PrimaryGeneratedColumn('uuid')
-userId: string;
-@Column('text')
-userEmail: string;
-@Column('text',{
+  @PrimaryGeneratedColumn('uuid')
+  userId: string;
+  @Column('text', {
     unique: true,
-})
-userPassword: string;
-@Column('simple-array', {
-    default:"Employee"
+  })
+  userEmail: string;
+  @Column('text')
+  userPassword: string;
+  @Column('simple-array', {
+    default: "Employee"
+  })
+  userRoles: string[];
 
-})
-userRoles: string[];
+  @OneToOne(() => Manager)
+  manager: Manager;
 
-@OneToOne(() => Manager)
-manager: Manager;
-
-@OneToOne(() => Employee,)
-employee: Employee;
-
+  @OneToOne(() => Employee)
+  employee: Employee;
 }
